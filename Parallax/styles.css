@@ -1,0 +1,33 @@
+html,
+body {
+  position: relative;
+  height: 100%;
+  background-color: black;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 99;
+}
+
+.swiper {
+    width: 80%;
+    height: 60%;
+    z-index: 100;
+}
+
+.swiper-slide {
+  background-size: cover;
+  background-position: center;
+  transition: 0.5s;
+}
+
+.swiper-slide:hover {
+  cursor: grab;
+}
+
+.swiper-slide:active {
+  cursor: grabbing
+}
