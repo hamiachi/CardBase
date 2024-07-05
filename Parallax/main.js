@@ -19,7 +19,6 @@ async function fetchRandomDogImages() {
       let id = 'content_image_pic' + i;
       li.push(id);
       document.getElementById(id).style.backgroundImage = `url('${data[i].message}')`;
-      console.log(data[i].message);
     }
 
   } catch (error) {
@@ -36,11 +35,64 @@ var swiper = new Swiper(".mySwiper", {
   loop: true,
 });
 
+document.addEventListener('DOMContentLoaded', () => {
+  const controlZone = document.querySelector('.swiper');
+  const items = document.querySelectorAll('.swiper-slide');
+  const observedIds = new Set();
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        observedIds.add(entry.target.id);
+      } else {
+        observedIds.delete(entry.target.id);
+      }
+      updateControlZone();
+    });
+  }, {
+    root: document.querySelector('.swiper'),
+    threshold: 0 // trigger as soon as any part is visible
+  });
+
+  items.forEach(item => observer.observe(item));
+
+  function updateControlZone() {
+    const idsArray = Array.from(observedIds).sort((a, b) => {
+      const aIndex = document.getElementById(a).offsetLeft;
+      const bIndex = document.getElementById(b).offsetLeft;
+      return aIndex - bIndex;
+    });
+
+    const limitedIdsArray = idsArray.slice(0, 5);
+
+    // Reset all items' classes first
+    items.forEach(item => {
+      item.classList.remove('active-1', 'active-2', 'active-3', 'active-4', 'active-5', 'inactive');
+    });
+
+    // Apply new classes to the elements in the control zone
+    limitedIdsArray.forEach((id, index) => {
+      const element = document.getElementById(id);
+      element.classList.add('active-' + (index + 1));
+    });
+
+    // Apply 'inactive' class to elements not in the control zone
+    items.forEach(item => {
+      if (!limitedIdsArray.includes(item.id)) {
+        item.classList.add('inactive');
+      }
+    });
+
+    console.log(limitedIdsArray);
+  }
+});
+
+
+
 document.addEventListener('mousemove', function(event) {
   let hoveredElement = document.elementFromPoint(event.clientX, event.clientY);
   
   if (hoveredElement && hoveredElement.id) {
-    console.log('Hovered element ID:', hoveredElement.id);
     document.getElementById(hoveredElement.id).style.opacity = 1;
 
     for (let i = 0; i < li.length; i++) {
