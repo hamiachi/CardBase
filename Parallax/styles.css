@@ -16,12 +16,15 @@ body {
     width: 80%;
     height: 60%;
     z-index: 100;
+    
 }
 
 .swiper-slide {
+  height: 100%;
   background-size: cover;
   background-position: center;
   transition: 0.5s;
+  backface-visibility: hidden;
 }
 
 .swiper-slide:hover {
@@ -31,3 +34,33 @@ body {
 .swiper-slide:active {
   cursor: grabbing
 }
+
+.swiper-wrapper {
+  perspective: 1000px;
+  backface-visibility: hidden;
+  transform-origin: center center;
+}
+
+.swiper-slide.active-1 {
+  clip-path: polygon(0 0, 100% 5%, 100% 95%, 0 100%);
+}
+
+.swiper-slide.active-2 {
+  clip-path: polygon(0 5%, 100% 10%, 100% 90%, 0 95%);
+}
+
+.swiper-slide.active-3 {
+  clip-path: polygon(0 10%, 100% 10%, 100% 90%, 0 90%);
+}
+
+.swiper-slide.active-4 {
+  clip-path: polygon(0 10%, 100% 5%, 100% 95%, 0 90%);
+}
+
+.swiper-slide.active-5 {
+  clip-path: polygon(0 5%, 100% 0, 100% 100%, 0 95%);
+}
+
+.swiper-slide.inactive {
+  transform: rotateY(0deg);
+} 
